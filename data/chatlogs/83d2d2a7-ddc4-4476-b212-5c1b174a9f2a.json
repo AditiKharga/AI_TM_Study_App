@@ -1,0 +1,18 @@
+{
+  "participant_id": "83d2d2a7-ddc4-4476-b212-5c1b174a9f2a",
+  "condition": "uncertain",
+  "start_time": "2025-12-03T06:20:41.909717",
+  "saved_time": "2025-12-03T06:21:05.928609",
+  "chat": [
+    {
+      "who": "user",
+      "text": "Will this cure me?",
+      "time": "2025-12-03T06:20:52.220413"
+    },
+    {
+      "who": "bot",
+      "text": "We do not know whether this treatment will help any particular person.",
+      "time": "2025-12-03T06:20:52.220413"
+    }
+  ]
+}
