@@ -129,56 +129,132 @@ if st.button("Finish chat and continue to questionnaire"):
 # Questionnaire
 if "chat_saved" in st.session_state:
     st.markdown("---")
-    st.subheader("Questionnaire")
+    st.header("Reflection on your interaction with the AI")
 
-    st.markdown("### Comprehension (choose the correct answer)")
-    comp_q1 = st.radio("What is the main purpose of the study?",
-                      ("To treat people and cure them", "To gather scientific information about the medicine", "To provide free medicine"))
-    comp_q2 = st.radio("If you join the study, are you guaranteed to receive benefit?", ("Yes", "No"))
-    comp_q3 = st.radio("Will participants always receive the active medicine?", ("Yes", "No - some will receive placebo", "Only some"))
-    comp_q4 = st.radio("How long will the trial follow participants?", ("4 weeks", "8 weeks", "12 weeks"))
-    comp_q5 = st.radio("What is a placebo?", ("A sugar pill with no active drug", "A stronger medicine", "A kind of surgery"))
+    st.markdown(
+        "Please answer honestly. There are no right or wrong answers — "
+        "we’re interested in how the AI *felt* to you."
+    )
 
-    st.markdown("### Therapeutic Misconception (1 = strongly disagree, 7 = strongly agree)")
-    tm1 = st.slider("This study’s treatment will probably benefit me personally.", 1, 7, 4)
-    tm2 = st.slider("The main goal of this study is to help participants.", 1, 7, 4)
-    tm3 = st.slider("I can expect the treatment in this study to cure my condition.", 1, 7, 3)
-    tm4 = st.slider("Researchers are primarily trying to provide treatment to those who join.", 1, 7, 3)
+    # ---------- AI CONFIDENCE & STYLE ----------
+    st.subheader("How did the AI sound to you?")
+    
+    q_confident = st.radio(
+        "The AI sounded very confident in what it was saying.",
+        options=[1,2,3,4,5,6,7],
+        format_func=lambda x: f"{x} (1 = strongly disagree, 7 = strongly agree)",
+        index=None
+    )
 
-    st.markdown("### Trust & Willingness")
-    trust_1 = st.slider("I trust the information provided by the chatbot.", 1, 7, 4)
-    trust_2 = st.slider("I would be likely to enroll in this study if I were eligible.", 1, 7, 3)
+    q_cautious = st.radio(
+        "The AI clearly acknowledged uncertainty or limitations in its answers.",
+        options=[1,2,3,4,5,6,7],
+        format_func=lambda x: f"{x} (1 = strongly disagree, 7 = strongly agree)",
+        index=None
+    )
 
-    st.markdown("### Free text")
-    free_text = st.text_area("In your own words, why would or would not you participate in this study?")
+    # ---------- TRUST & RELIANCE ----------
+    st.subheader("Trust and reliance")
 
-    st.markdown("### Demographics (short)")
+    q_trust = st.radio(
+        "I trust the information provided by this AI.",
+        options=[1,2,3,4,5,6,7],
+        format_func=lambda x: f"{x}",
+        index=None
+    )
+
+    q_follow = st.radio(
+        "I would seriously consider following the AI’s advice in my real life.",
+        options=[1,2,3,4,5,6,7],
+        format_func=lambda x: f"{x}",
+        index=None
+    )
+
+    q_no_double_check = st.radio(
+        "I would probably not feel the need to double-check the AI’s advice with a human.",
+        options=[1,2,3,4,5,6,7],
+        format_func=lambda x: f"{x}",
+        index=None
+    )
+
+    # ---------- OVER-TRUST / PERSONALIZATION ----------
+    st.subheader("Personal relevance")
+
+    q_for_me = st.radio(
+        "It felt like the AI’s advice was well-suited specifically for *my* situation.",
+        options=[1,2,3,4,5,6,7],
+        index=None
+    )
+
+    q_understood_me = st.radio(
+        "I felt understood by the AI.",
+        options=[1,2,3,4,5,6,7],
+        index=None
+    )
+
+    q_solution = st.radio(
+        "Interacting with the AI made me feel like my issue could be solved.",
+        options=[1,2,3,4,5,6,7],
+        index=None
+    )
+
+    # ---------- REALITY CHECK ----------
+    st.subheader("Your view about AI in general")
+
+    q_ai_fallible = st.radio(
+        "Even if an AI sounds confident, I know it can still be wrong.",
+        options=[1,2,3,4,5,6,7],
+        index=None
+    )
+
+    # ---------- FREE TEXT ----------
+    st.subheader("Open response")
+    free_text = st.text_area(
+        "In your own words, how did you feel about relying on this AI for your concern?"
+    )
+
+    # ---------- DEMOGRAPHICS (OPTIONAL, KEEP LIGHT) ----------
+    st.subheader("A few optional details")
+
     age = st.number_input("Age", min_value=18, max_value=100, value=25)
-    gender = st.selectbox("Gender", ["Prefer not to say", "Male", "Female", "Other"])
-    education = st.selectbox("Highest education", ["High school", "Undergraduate", "Postgraduate", "Other"])
-    prior_trial = st.selectbox("Prior experience in clinical trials?", ["No", "Yes"])
-    health_lit = st.slider("How would you rate your health literacy? (1 low - 5 high)", 1, 5, 3)
+    experience_ai = st.radio(
+        "How often do you use AI tools like ChatGPT?",
+        options=["Rarely", "Sometimes", "Often", "Very often"],
+        index=None
+    )
 
+    # ---------- SUBMIT ----------
     if st.button("Submit responses"):
-        pid = st.session_state.participant_id
-        tm_score = (tm1 + tm2 + tm3 + tm4) / 4.0
-        row = {
-            "participant_id": pid,
-            "timestamp_start": st.session_state.start_time,
-            "timestamp_end": datetime.utcnow().isoformat(),
-            "condition": st.session_state.condition,
-            "vignette_id": "vignette_01",
-            "chat_log_path": st.session_state.chat_saved,
-            "manipulation_check_confidence": st.session_state.manipulation_check if st.session_state.manipulation_check is not None else "",
-            "tm_item_1": tm1, "tm_item_2": tm2, "tm_item_3": tm3, "tm_item_4": tm4,
-            "tm_score": tm_score,
-            "comp_q1": comp_q1, "comp_q2": comp_q2, "comp_q3": comp_q3, "comp_q4": comp_q4, "comp_q5": comp_q5,
-            "trust_1": trust_1, "willingness": trust_2,
-            "free_text": free_text,
-            "age": age, "gender": gender, "education": education, "prior_trial": prior_trial,
-            "health_literacy": health_lit
-        }
-        append_response_row(row)
-        st.success("Thank you — your responses have been recorded.")
-        st.balloons()
-        st.stop()
+        required = [
+            q_confident, q_cautious, q_trust, q_follow,
+            q_no_double_check, q_for_me, q_understood_me,
+            q_solution, q_ai_fallible
+        ]
+
+        if any(r is None for r in required):
+            st.warning("Please answer all the scale questions before submitting.")
+        else:
+            row = {
+                "participant_id": st.session_state["participant_id"],
+                "timestamp_end": datetime.utcnow().isoformat(),
+                "condition": st.session_state["condition"],
+                "chat_log_path": st.session_state["chat_saved"],
+
+                "ai_confident": q_confident,
+                "ai_cautious": q_cautious,
+                "trust": q_trust,
+                "follow_advice": q_follow,
+                "no_double_check": q_no_double_check,
+                "felt_for_me": q_for_me,
+                "felt_understood": q_understood_me,
+                "felt_solution": q_solution,
+                "ai_fallible_awareness": q_ai_fallible,
+
+                "free_text": free_text,
+                "age": age,
+                "ai_usage_frequency": experience_ai
+            }
+
+            append_response_row(row)
+            st.success("Thank you — your responses have been recorded.")
+            st.stop()
