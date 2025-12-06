@@ -12,10 +12,14 @@ os.makedirs(DATA_DIR, exist_ok=True)
 
 # Replace or keep this vignette text (or read from ../vignettes/vignette_01.txt)
 VIGNETTE_TEXT = (
-    "You have chronic knee pain that makes walking difficult. Researchers are testing a new "
-    "medicine called X-201. If you join the study, you may receive either the new medicine or a placebo. "
-    "The study will last 12 weeks and will test the medicine’s safety and effectiveness. The treatment "
-    "may or may not help you. The main purpose of the study is to gather scientific information."
+   "You can ask the AI about any issue you want — for example:"
+    "stress or anxiety"
+    "health or fitness questions"
+    "career or studies"
+    "relationships"
+    "daily life decisions"
+    "There are no right or wrong questions."
+    "When you feel you’ve asked everything you wanted, click “I’m done asking my questions."
 )
 
 # Prompts (we use them only to label the condition here)
