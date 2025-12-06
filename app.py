@@ -12,12 +12,12 @@ os.makedirs(DATA_DIR, exist_ok=True)
 
 # Replace or keep this vignette text (or read from ../vignettes/vignette_01.txt)
 VIGNETTE_TEXT = (
-   "You can ask the AI about any issue you want — for example:"
-    "stress or anxiety"
-    "health or fitness questions"
-    "career or studies"
-    "relationships"
-    "daily life decisions"
+   "You can ask the AI about any issue you want — for example: "
+    "stress or anxiety,"
+    "health or fitness questions,"
+    "career or studies,"
+    "relationships,"
+    "daily life decisions."
     "There are no right or wrong questions."
     "When you feel you’ve asked everything you wanted, click “I’m done asking my questions."
 )
@@ -140,23 +140,6 @@ if "chat_saved" in st.session_state:
         "we’re interested in how the AI *felt* to you."
     )
 
-    # ---------- AI CONFIDENCE & STYLE ----------
-    st.subheader("How did the AI sound to you?")
-    
-    q_confident = st.radio(
-        "The AI sounded very confident in what it was saying.",
-        options=[1,2,3,4,5,6,7],
-        format_func=lambda x: f"{x} (1 = strongly disagree, 7 = strongly agree)",
-        index=None
-    )
-
-    q_cautious = st.radio(
-        "The AI clearly acknowledged uncertainty or limitations in its answers.",
-        options=[1,2,3,4,5,6,7],
-        format_func=lambda x: f"{x} (1 = strongly disagree, 7 = strongly agree)",
-        index=None
-    )
-
     # ---------- TRUST & RELIANCE ----------
     st.subheader("Trust and reliance")
 
@@ -208,6 +191,23 @@ if "chat_saved" in st.session_state:
     q_ai_fallible = st.radio(
         "Even if an AI sounds confident, I know it can still be wrong.",
         options=[1,2,3,4,5,6,7],
+        index=None
+    )
+   
+   # ---------- AI CONFIDENCE & STYLE ----------
+    st.subheader("How did the AI sound to you?")
+    
+    q_confident = st.radio(
+        "The AI sounded very confident in what it was saying.",
+        options=[1,2,3,4,5,6,7],
+        format_func=lambda x: f"{x} (1 = strongly disagree, 7 = strongly agree)",
+        index=None
+    )
+
+    q_cautious = st.radio(
+        "The AI clearly acknowledged uncertainty or limitations in its answers.",
+        options=[1,2,3,4,5,6,7],
+        format_func=lambda x: f"{x} (1 = strongly disagree, 7 = strongly agree)",
         index=None
     )
 
