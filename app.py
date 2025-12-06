@@ -262,3 +262,20 @@ if "chat_saved" in st.session_state:
             append_response_row(row)
             st.success("Thank you — your responses have been recorded.")
             st.stop()
+
+import os
+
+st.markdown("---")
+st.subheader("Researcher download (admin)")
+
+if os.path.exists("data/responses.csv"):
+    with open("data/responses.csv", "rb") as f:
+        st.download_button(
+            label="Download responses.csv",
+            data=f,
+            file_name="responses.csv",
+            mime="text/csv"
+        )
+else:
+    st.warning("No responses file found yet.")
+
